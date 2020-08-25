@@ -1,9 +1,9 @@
-use employee_db;
+USE employee_db;
 
 INSERT INTO department (name)
 VALUES ('Programming'), ('Art'), ('Design');
 
-INSERT INTO roles (title, salary, dpeartment_id)
+INSERT INTO role (title, salary, department_id)
 VALUES ('Head Programmer', 95000, 1),
 ('Tester', 46000, 1),
 ('Character Concept Artist', 50000, 2),
@@ -16,5 +16,5 @@ VALUES ('Chris', 'Carbonell', 1, NULL),
 ('Jordan', 'Meyer', 2, 1),
 ('Gabrielle', 'Machado', 4, NULL),
 ('Shadow', 'Stewart', 3, 3),
-('Danny', 'Torres', 6, NULL)
+('Danny', 'Torres', 6, NULL),
 ('Nathan', 'Anson', 5, 5);
