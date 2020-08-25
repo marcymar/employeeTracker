@@ -137,11 +137,10 @@ const addEmployee = () => {
         .catch(err => console.log(err))
       })
     })
-  })
-}
+  }
 
 const updateEmployeeRole = () => {
-  db.query('UPDATE role FROM employee SET role = ?', 
+  db.query('UPDATE role FROM employee SET role = ?', (err, employees) =>  {
     if (err) {console.log(err)}
     roles = roles.map(role => ({
       name: role.title, 
@@ -215,11 +214,11 @@ const viewRoles = () => {
   SELECT role.title, role.salary
   LEFT JOIN role
   ON role_id = role.id
-  `) (err, roles) => {
+  `, (err, roles) => {
     if (err) {console.log(err)}
     console.table(roles)
     mainMenu()
-  }
+  })
 
 }
 
