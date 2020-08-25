@@ -26,17 +26,3 @@ CREATE TABLE department (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   name VARCHAR(30) UNIQUE NOT NULL
 );
-USE employee_db;
-
-INSERT INTO department (name)
-VALUES ('Human Resources');
-
-USE employee_db;
-
-INSERT INTO role (title, salary, department_id)
-VALUES ('Receptionist', 30, 1);
-
-USE employee_db;
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('John', 'Doe', 1, )
