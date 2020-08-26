@@ -11,7 +11,7 @@
 ---
 
 ## About
- The goal of this assignemt was to create an application allowing a user to manage their business' departments, employees, and roles within the company.  With it the user can add departments, roles and employees, as well as view them all. 
+ The goal of this assignment was to create an application allowing a user to manage their business' departments, employees, and roles within the company.  With it the user can add departments, roles and employees, as well as view them all. 
 ---
 ## Functionality
 
@@ -20,4 +20,4 @@ This app was made using the npms Inquirer and console.table.  It also utilizes M
 --- 
 ## Demonstration
 
-Video of [the app.](urlhere)
+Video of [the app.](https://youtu.be/go_GqotplTs)
