@@ -50,8 +50,8 @@ const mainMenu = () => {
         case 'addEmployee':
           addEmployee()
           break
-        // case 'updateEmployeeRole':
-        //   updateEmployeeRole()
+          // case 'updateEmployeeRole':
+          //   updateEmployeeRole()
           break
         case 'viewDepartments':
           viewDepartments()
@@ -189,103 +189,103 @@ const addEmployee = () => {
 
 
 const viewDepartments = () => {
-    db.query(`
+  db.query(`
     SELECT department.name AS department
     FROM department
   `, (err, departments) => {
-      if (err) { console.log(err) }
-      console.table(departments)
-      mainMenu()
-    })
+    if (err) { console.log(err) }
+    console.table(departments)
+    mainMenu()
+  })
 
-  }
+}
 
-  const addDepartment = () => {
+const addDepartment = () => {
+  db.query('SELECT * FROM department', (err, departments) => {
+    if (err) { console.log(err) }
+
+    departments = departments.map(department => ({
+      name: department.title,
+      value: department.id
+    }))
+
+    departments.unshift({ name: 'None', value: null })
+
+    prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of the department you wish to add?'
+      }
+    ])
+      .then(department => {
+        db.query('INSERT INTO department SET ?', department, (err) => {
+          if (err) { console.log(err) }
+          console.log('Department Created')
+          mainMenu()
+        })
+      })
+      .catch(err => console.log(err))
+  })
+
+}
+
+const viewRoles = () => {
+  db.query(`
+    SELECT role.title, role.salary
+    FROM role
+  `, (err, roles) => {
+    if (err) { console.log(err) }
+    console.table(roles)
+    mainMenu()
+  })
+}
+
+const addRole = () => {
+  db.query('SELECT * FROM role', (err, roles) => {
+    if (err) { console.log(err) }
+
+    roles = roles.map(role => ({
+      name: role.title,
+      value: role.id
+    }))
+
     db.query('SELECT * FROM department', (err, departments) => {
-      if (err) { console.log(err) }
-
       departments = departments.map(department => ({
-        name: department.title,
+        name: `${department.name}`,
         value: department.id
       }))
 
-      departments.unshift({ name: 'None', value: null })
+      roles.unshift({ name: 'None', value: null })
 
       prompt([
         {
           type: 'input',
-          name: 'name',
-          message: 'What is the name of the department you wish to add?'
+          name: 'title',
+          message: 'What is the role you wish to add?'
+        },
+        {
+          type: 'input',
+          name: 'salary',
+          message: 'What is the base salary for the role?'
+        },
+        {
+          type: 'list',
+          name: 'department_id',
+          message: 'What department does the role belong to?',
+          choices: departments
         }
       ])
-        .then(department => {
-          db.query('INSERT INTO department SET ?', department, (err) => {
+        .then(role => {
+          db.query('INSERT INTO role SET ?', role, (err => {
             if (err) { console.log(err) }
-            console.log('Department Created')
+            console.log('Role Created')
             mainMenu()
-          })
+          }))
         })
         .catch(err => console.log(err))
     })
+  })
+}
 
-  }
-
-  const viewRoles = () => {
-    db.query(`
-    SELECT role.title, role.salary
-    FROM role
-  `, (err, roles) => {
-      if (err) { console.log(err) }
-      console.table(roles)
-      mainMenu()
-    })
-  }
-
-  const addRole = () => {
-    db.query('SELECT * FROM role', (err, roles) => {
-      if (err) { console.log(err) }
-
-      roles = roles.map(role => ({
-        name: role.title,
-        value: role.id
-      }))
-
-      db.query('SELECT * FROM department', (err, departments) => {
-        departments = departments.map(department => ({
-          name: `${department.name}`,
-          value: department.id
-        }))
-
-        roles.unshift({ name: 'None', value: null })
-
-        prompt([
-          {
-            type: 'input',
-            name: 'title',
-            message: 'What is the role you wish to add?'
-          },
-          {
-            type: 'input',
-            name: 'salary',
-            message: 'What is the base salary for the role?'
-          },
-          {
-            type: 'list',
-            name: 'department_id',
-            message: 'What department does the role belong to?',
-            choices: departments
-          }
-        ])
-          .then(role => {
-            db.query('INSERT INTO role SET ?', role, (err => {
-              if (err) { console.log(err) }
-              console.log('Role Created')
-              mainMenu()
-            }))
-          })
-          .catch(err => console.log(err))
-      })
-    })
-  }
-
-  mainMenu()
+mainMenu()
