@@ -144,53 +144,23 @@ const addEmployee = () => {
 }
 
 const updateEmployeeRole = () => {
-  db.query('UPDATE role FROM employee SET role = ?', (err, employees) => {
-    if (err) { console.log(err) }
-    roles = roles.map(role => ({
-      name: role.title,
-      value: role.id
-    }))
-    prompt([
-      {
-        type: 'list',
-        name: 'update_role',
-        message: 'Which employee role do you want to change:',
-        choices: employees
-      },
-      {
-        type: 'list',
-        name: 'role_id',
-        message: 'Choose a role for the employee:',
-        choices: roles
-      }
-    ])
-      .then(employee => {
-        db.query('INSERT INTO employee SET ?',
-          employee, (err) => {
-            if (err) { console.log(err) }
-            console.log('Employee Updated')
-            mainMenu()
-          })
-      })
-      .catch(err => console.log(err))
-  })
+  
 }
 
 const viewDepartments = () => {
   db.query(`
-  SELECT department.name
-  LEFT JOIN department
-  ON role.department_id = department.id
-  `, (err, department) => {
+    SELECT department.name AS department
+    FROM department
+  `, (err, departments) => {
     if (err) { console.log(err) }
-    console.table(department)
+    console.table(departments)
     mainMenu()
   })
 
 }
 
 const addDepartment = () => {
-  db.query('SELECT * FROM department', (err, department) => {
+  db.query('SELECT * FROM department', (err, departments) => {
     if (err) { console.log(err) }
 
     departments = departments.map(department => ({
@@ -203,7 +173,7 @@ const addDepartment = () => {
     prompt([
       {
         type: 'input',
-        name: 'department_id',
+        name: 'name',
         message: 'What is the name of the department you wish to add?'
       }
     ])
@@ -220,45 +190,12 @@ const addDepartment = () => {
 }
 
 const viewRoles = () => {
-  db.query(`
-  SELECT role.title, role.salary
-  LEFT JOIN role
-  ON role_id = role.id
-  `, (err, roles) => {
-    if (err) { console.log(err) }
-    console.table(roles)
-    mainMenu()
-  })
 
 }
 
 const addRole = () => {
-  db.query('SELECT * FROM role', (err, role) => {
-    if (err) { console.log(err) }
 
-    roles = roles.map(role => ({
-      name: role.title,
-      value: role.id
-    }))
-
-    roles.unshift({ name: 'None', value: null })
-
-    prompt([
-      {
-        type: 'input',
-        name: 'role',
-        message: 'What is the name of the role you wish to add?'
-      }
-    ])
-      .then(role => {
-        db.query('INSERT INTO role SET ?', role, (err) => {
-          if (err) { console.log(err) }
-          console.log('Role Created')
-          mainMenu()
-        })
-      })
-      .catch(err => console.log(err))
-  })
 }
+
 
 mainMenu()
