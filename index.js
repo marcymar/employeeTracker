@@ -144,7 +144,7 @@ const addEmployee = () => {
 }
 
 const updateEmployeeRole = () => {
-  
+
 }
 
 const viewDepartments = () => {
@@ -190,7 +190,14 @@ const addDepartment = () => {
 }
 
 const viewRoles = () => {
-
+  db.query(`
+    SELECT role.title, role.salary
+    FROM role
+  `, (err, roles) => {
+    if (err) { console.log(err) }
+    console.table(roles)
+    mainMenu()
+  })
 }
 
 const addRole = () => {
